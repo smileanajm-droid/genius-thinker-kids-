@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GENIUS THINKER KIDS — Petualangan Anak Cerdas</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@600;700;800;900&display=swap');
+        body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); color: #334155; user-select: none; }
+        h1, h2, h3, h4 { font-family: 'Fredoka', cursive; }
+        .map-bg { background-color: #0c4a6e; background-image: radial-gradient(at 10% 10%, #0284c7 0px, transparent 50%), radial-gradient(at 90% 10%, #0d9488 0px, transparent 50%), radial-gradient(at 50% 90%, #0369a1 0px, transparent 50%); }
+        .map-grid { background-image: radial-gradient(rgba(255, 255, 255, 0.15) 2px, transparent 0); background-size: 30px 30px; }
+        .level-btn { transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .level-btn:hover:not(:disabled) { transform: scale(1.1) translateY(-5px); }
+        .pulse-glow { animation: pulse-animation 2s infinite; }
+        @keyframes pulse-animation { 0% { box-shadow: 0 0 0 0px rgba(99, 102, 241, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); } 100% { box-shadow: 0 0 0 0px rgba(99, 102, 241, 0); } }
+        .badge-bounce { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between items-center text-slate-800">
+    <header class="w-full max-w-4xl bg-slate-900/80 backdrop-blur-md text-white px-4 py-3 sticky top-0 z-50 shadow-lg border-b border-slate-700/50 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <button onclick="showScreen('map-screen')" class="bg-indigo-600 hover:bg-indigo-500 text-white p-2 rounded-xl transition font-semibold text-sm flex items-center gap-2">
+                <i class="fa-solid fa-map"></i> <span>Peta Petualangan</span>
+            </button>
+            <div class="hidden sm:flex items-center gap-2 bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700">
+                <span id="current-avatar-icon" class="text-xl">🦊</span>
+                <span id="current-username" class="font-bold text-amber-400 text-sm">Petualang Cerdas</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-amber-500/20 border border-amber-500/40 px-3 py-1 rounded-xl flex items-center gap-1.5">
+                    <i class="fa-solid fa-star text-amber-400"></i> <span id="total-stars" class="font-extrabold text-amber-300">0</span>
+                </div>
+                <div class="bg-indigo-500/20 border border-indigo-500/40 px-3 py-1 rounded-xl flex items-center gap-1.5">
+                    <i class="fa-solid fa-trophy text-indigo-400"></i> <span id="user-level-badge" class="font-extrabold text-indigo-300 text-xs sm:text-sm">Lv.1 Penjelajah</span>
+                </div>
+            </div>
+            <button onclick="showParentDashboard()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1.5 border border-slate-700">
+                <i class="fa-solid fa-user-shield text-emerald-400"></i> <span class="hidden md:inline">Area Orang Tua</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="w-full max-w-4xl flex-1 flex flex-col p-4 relative">
+        <section id="welcome-screen" class="screen flex-1 flex flex-col items-center justify-center text-center p-6 bg-slate-900/90 rounded-3xl border border-slate-700 shadow-2xl relative overflow-hidden my-auto">
+            <div class="text-6xl mb-4 badge-bounce">🧠💡</div>
+            <h1 class="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-indigo-300 mb-2">GENIUS THINKER KIDS</h1>
+            <p class="text-indigo-200 text-lg font-medium mb-8 max-w-md">Petualangan Menjelajahi Dunia Logika, Mengasah Pikiran, dan Menjadi Pemikir Hebat!</p>
+            <div class="w-full max-w-sm bg-slate-800/80 p-6 rounded-2xl border border-slate-700 mb-6 text-left">
+                <label class="block text-slate-300 font-bold text-sm mb-2">Siapa Namamu, Petualang?</label>
+                <input type="text" id="player-name-input" placeholder="Tulis namamu..." class="w-full bg-slate-900 border border-slate-600 rounded-xl px-4 py-3 text-white font-bold text-lg focus:outline-none focus:border-indigo-500 mb-4">
+                <label class="block text-slate-300 font-bold text-sm mb-2">Pilih Teman Avatarmu:</label>
+                <div class="grid grid-cols-5 gap-2" id="avatar-selector">
+                    <button type="button" onclick="selectAvatar('🦊')" class="avatar-btn text-3xl p-2 rounded-xl border-2 border-indigo-500 bg-indigo-900/50">🦊</button>
+                    <button type="button" onclick="selectAvatar('🦉')" class="avatar-btn text-3xl p-2 rounded-xl border-2 border-transparent bg-slate-900">🦉</button>
+                    <button type="button" onclick="selectAvatar('🤖')" class="avatar-btn text-3xl p-2 rounded-xl border-2 border-transparent bg-slate-900">🤖</button>
+                    <button type="button" onclick="selectAvatar('🦁')" class="avatar-btn text-3xl p-2 rounded-xl border-2 border-transparent bg-slate-900">🦁</button>
+                    <button type="button" onclick="selectAvatar('🚀')" class="avatar-btn text-3xl p-2 rounded-xl border-2 border-transparent bg-slate-900">🚀</button>
+                </div>
+            </div>
+            <button onclick="startAdventure()" class="w-full max-w-sm py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-xl rounded-2xl shadow-lg pulse-glow flex items-center justify-center gap-3">
+                <i class="fa-solid fa-play"></i> MULAI PETUALANGAN
+            </button>
+        </section>
+
+        <section id="map-screen" class="screen hidden flex-1 flex flex-col bg-slate-900/90 rounded-3xl border border-slate-700 overflow-hidden shadow-2xl">
+            <div class="bg-slate-800/90 p-3 border-b border-slate-700 flex justify-between items-center gap-2 overflow-x-auto">
+                <button onclick="renderLevelMap('L1')" id="tab-L1" class="category-tab px-4 py-2 rounded-xl font-bold text-sm bg-indigo-600 text-white whitespace-nowrap">Lv 1: Penjelajah (1-20)</button>
+                <button onclick="renderLevelMap('L2')" id="tab-L2" class="category-tab px-4 py-2 rounded-xl font-bold text-sm bg-slate-700 text-slate-300 whitespace-nowrap">Lv 2: Penyelidik (21-40)</button>
+                <button onclick="renderLevelMap('L3')" id="tab-L3" class="category-tab px-4 py-2 rounded-xl font-bold text-sm bg-slate-700 text-slate-300 whitespace-nowrap">Lv 3: Pemikir (41-60)</button>
+                <button onclick="renderLevelMap('L4')" id="tab-L4" class="category-tab px-4 py-2 rounded-xl font-bold text-sm bg-slate-700 text-slate-300 whitespace-nowrap">Lv 4: Pemecah (61-80)</button>
+                <button onclick="renderLevelMap('L5')" id="tab-L5" class="category-tab px-4 py-2 rounded-xl font-bold text-sm bg-slate-700 text-slate-300 whitespace-nowrap">Lv 5: Penemu (81-100)</button>
+            </div>
+            <div class="flex-1 map-bg map-grid p-6 relative overflow-y-auto flex flex-col items-center">
+                <div class="w-full max-w-md mb-4 bg-slate-900/80 p-3 rounded-2xl border border-slate-700/80 text-center text-xs text-indigo-200">
+                    <p class="font-bold text-amber-300"><i class="fa-solid fa-compass mr-1"></i> Pulau Tantangan Logika</p> Selesaikan tiap tantangan untuk membuka level selanjutnya!
+                </div>
+                <div id="level-buttons-grid" class="grid grid-cols-4 sm:grid-cols-5 gap-4 w-full max-w-md py-4"></div>
+            </div>
+        </section>
+
+        <section id="game-screen" class="screen hidden flex-1 flex flex-col bg-slate-900/90 rounded-3xl border border-slate-700 overflow-hidden shadow-2xl relative">
+            <div class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <button onclick="showScreen('map-screen')" class="bg-slate-700 hover:bg-slate-600 text-slate-300 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-arrow-left"></i> Peta
+                    </button>
+                    <div>
+                        <span id="challenge-category-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Logika</span>
+                        <h2 id="challenge-title" class="text-white font-bold text-base sm:text-lg">Tantangan #1</h2>
+                    </div>
+                </div>
+                <button onclick="askKakCerdasHint()" class="bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-lightbulb text-amber-400"></i> <span>Petunjuk Kak Cerdas</span>
+                </button>
+            </div>
+            <div class="flex-1 p-5 overflow-y-auto flex flex-col gap-5">
+                <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-4 sm:p-5 text-slate-200">
+                    <div class="flex items-center gap-2 text-indigo-400 font-bold text-xs uppercase tracking-wider mb-2"><i class="fa-solid fa-book-open"></i> Situasi & Studi Kasus</div>
+                    <p id="challenge-story" class="text-base sm:text-lg leading-relaxed font-medium">Cerita situasi...</p>
+                </div>
+                <div class="bg-indigo-950/40 border border-indigo-800/50 rounded-2xl p-4 text-indigo-100">
+                    <div class="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1"><i class="fa-solid fa-circle-question"></i> Pertanyaan Kritis</div>
+                    <p id="challenge-question" class="text-lg font-bold text-white">Pertanyaan...</p>
+                </div>
+                <div id="options-container" class="grid grid-cols-1 gap-3"></div>
+                <div class="bg-emerald-950/40 border border-emerald-800/50 rounded-2xl p-4 flex items-start gap-3">
+                    <div class="text-3xl bg-emerald-900/60 p-2 rounded-xl border border-emerald-700">🦉</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-emerald-300 text-sm flex items-center gap-1.5">Kak Cerdas <span class="text-[10px] bg-emerald-800/60 px-2 py-0.5 rounded-full text-emerald-200">Teman Berpikir</span></h4>
+                        <p id="kak-cerdas-text" class="text-xs sm:text-sm text-emerald-100 mt-1 leading-relaxed">"Halo! Luangkan waktu untuk membaca situasi di atas. Jangan terburu-buru!"</p>
+                    </div>
+                </div>
+                <div id="solution-feedback-box" class="hidden bg-slate-800 border border-slate-700 rounded-2xl p-5">
+                    <div id="feedback-status" class="font-bold text-lg mb-2 flex items-center gap-2"></div>
+                    <p id="feedback-explanation" class="text-sm text-slate-300 leading-relaxed mb-4"></p>
+                    <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700 mb-4">
+                        <span class="text-xs font-bold text-amber-400 block mb-1"><i class="fa-solid fa-brain mr-1"></i> Refleksi Pemikiran:</span>
+                        <p id="feedback-reflection" class="text-xs text-slate-300 italic"></p>
+                    </div>
+                    <button onclick="nextLevelOrMap()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-center shadow flex items-center justify-center gap-2">
+                        <span>Lanjutkan Petualangan</span> <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="parent-screen" class="screen hidden flex-1 flex flex-col bg-slate-900/90 rounded-3xl border border-slate-700 overflow-hidden shadow-2xl">
+            <div class="bg-slate-800 p-4 border-b border-slate-700 flex justify-between items-center">
+                <div class="flex items-center gap-2 text-emerald-400 font-bold text-lg"><i class="fa-solid fa-chart-line"></i> Laporan Perkembangan Orang Tua</div>
+                <button onclick="showScreen('map-screen')" class="bg-slate-700 hover:bg-slate-600 text-slate-300 px-3 py-1.5 rounded-xl text-xs font-bold">Tutup</button>
+            </div>
+            <div class="flex-1 p-5 overflow-y-auto flex flex-col gap-6 text-slate-200">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400 font-bold block">Tantangan Selesai</span>
+                        <span id="stat-completed" class="text-2xl font-black text-amber-400">0 / 100</span>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400 font-bold block">Total Bintang</span>
+                        <span id="stat-stars" class="text-2xl font-black text-amber-300">0</span>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400 font-bold block">Tingkat Berpikir</span>
+                        <span id="stat-level-title" class="text-sm font-black text-indigo-300 mt-1 block">Level 1</span>
+                    </div>
+                    <div class="bg-slate-800 p-3.5 rounded-2xl border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400 font-bold block">Kualifikasi</span>
+                        <span class="text-xs font-bold text-emerald-400 mt-1 block">Pemikir Aktif</span>
+                    </div>
+                </div>
+                <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+                    <h3 class="font-bold text-white text-base mb-4 flex items-center gap-2"><i class="fa-solid fa-sliders text-indigo-400"></i> Domain Kemampuan Berpikir Kritis</h3>
+                    <div class="space-y-4 text-xs">
+                        <div>
+                            <div class="flex justify-between font-bold mb-1"><span class="text-slate-300">Penalar Logika & Pola</span><span id="skill-logic-pct" class="text-indigo-400">0%</span></div>
+                            <div class="w-full bg-slate-900 rounded-full h-2.5 overflow-hidden"><div id="skill-logic-bar" class="bg-indigo-500 h-2.5 rounded-full" style="width: 0%"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-end"><button onclick="resetUserData()" class="text-xs text-rose-400 hover:text-rose-300 underline font-semibold">Reset Seluruh Progres Belajar</button></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="w-full max-w-4xl py-3 px-4 text-center text-xs text-slate-500">GENIUS THINKER KIDS &copy; 2026 — Platform Edukasi Berpikir Kritis & HOTS Anak</footer>
+    <script src="app.js"></script>
+</body>
+                                                                                                                                                                                                       </html>
+                          
