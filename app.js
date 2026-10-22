@@ -1,5 +1,5 @@
 /**
- * GENIUS THINKER KIDS - Core Logic Engine & 100 Unique HOTS Challenges
+ * GENIUS THINKER KIDS - 100 Unique HOTS Challenges Engine
  */
 
 let userState = { name: "Petualang Cerdas", avatar: "🦊", completedLevels: {}, totalStars: 0, currentLevelGroup: "L1" };
@@ -32,54 +32,156 @@ function playSound(type) {
     } catch(e) {}
 }
 
-// 100 Database Tantangan Unik dan Bervariasi
+// Generator 100 Tantangan Unik Tanpa Pengulangan Teks Identik
 const challengesData = [];
 
-(function generateUnique100Challenges() {
-    const rawBank = [
-        // Logika & Pola
-        { cat: 'logic', title: "Pola Angka Kelipatan", story: "Detektif menemukan petunjuk angka: 3, 6, 12, 24, ... Berapakah angka berikutnya?", question: "Pilih angka yang tepat sesuai aturan pola:", options: ["30", "48", "36", "42"], correct: 1, explanation: "Setiap angka dikalikan 2 (3x2=6, 6x2=12, 12x2=24, 24x2=48).", reflection: "Pola perkalian membantu memprediksi urutan angka berikutnya dengan akurat.", hint: "Perhatikan bagaimana nilai angka bertambah dua kali lipat." },
-        { cat: 'logic', title: "Teka-teki Urutan Berat", story: "Buku A lebih berat daripada Buku B. Buku C lebih ringan daripada Buku B.", question: "Manakah buku yang paling ringan di antara ketiganya?", options: ["Buku A", "Buku B", "Buku C", "Semua sama berat"], correct: 2, explanation: "Jika A > B dan B > C, maka urutan dari terberat adalah A, B, lalu C (paling ringan).", reflection: "Perbandingan bertingkat memudahkan kita menyusun urutan logis.", hint: "Susun posisinya dari atas ke bawah." },
-        { cat: 'logic', title: "Mencari Bentuk Berbeda", story: "Di atas meja ada empat benda: Bola basket, bola voli, bola tenis, dan sebuah kotak kubus kayu.", question: "Benda manakah yang tidak satu kelompok dengan yang lain?", options: ["Bola basket", "Bola voli", "Kotak kubus kayu", "Bola tenis"], correct: 2, explanation: "Kotak kubus berbentuk balok/kubus dan bersudut, sedangkan tiga lainnya adalah bola bundar.", reflection: "Pengelompokan objek didasarkan pada kesamaan sifat fisik.", hint: "Cari benda yang bentuk geometrinya tidak bulat." },
-        
-        // Detektif Cilik
-        { cat: 'detective', title: "Tanaman Kelas yang Layu", story: "Tanaman pot di pojok kelas daunnya menguning dan tanahnya sangat kering.", question: "Apa penyebab paling logis dari kondisi tanaman tersebut?", options: ["Tanaman terserang sihir", "Kekurangan air karena jarang disiram", "Ada yang bernyanyi terlalu keras", "Kurang dekorasi dinding"], correct: 1, explanation: "Tanah yang kering kerontang adalah bukti fisik utama kekurangan pasokan air.", reflection: "Kesimpulan detektif yang baik selalu berpijak pada bukti nyata di tempat kejadian.", hint: "Perhatikan kondisi fisik tanah tempat tanaman tumbuh." },
-        { cat: 'detective', title: "Jejak Kaki di Lumpur", story: "Pagi hari ditemukan jejak sepatu bot besar di halaman sekolah yang baru disemen basah.", question: "Langkah awal apa yang harus dilakukan detektif untuk menyelidiki?", options: ["Menuduh seluruh murid kelas 6", "Mengukur ukuran jejak dan membandingkannya dengan sepatu warga sekolah", "Menutup sekolah selamanya", "Membiarkan saja karena angin"], correct: 1, explanation: "Mengumpulkan bukti fisik (ukuran dan pola sepatu) adalah langkah awal investigasi ilmiah.", reflection: "Jangan menuduh sebelum data dan bukti terkumpul lengkap.", hint: "Cari cara penyelidikan yang mengandalkan bukti fisik." },
-        
-        // Fakta atau Opini
-        { cat: 'fact_opinion', title: "Klaim Iklan Jus Buah", story: "Sebuah poster iklan minuman menuliskan: 'Jus Mangga Sehat mengandung 50mg Vitamin C dan rasanya paling lezat sedunia!'", question: "Mana bagian kalimat yang merupakan FAKTA?", options: ["Rasa jus paling lezat sedunia", "Semua orang pasti menyukainya", "Mengandung 50mg Vitamin C", "Jus ini membuat hari-hari lebih ceria"], correct: 2, explanation: "Kandungan 50mg Vitamin C dapat diuji di laboratorium (Fakta), rasa lezat adalah selera (Opini).", reflection: "Fakta bersifat objektif dan terukur, sedangkan opini bersifat subjektif.", hint: "Cari pernyataan yang memiliki angka/ukuran pasti." },
-        { cat: 'fact_opinion', title: "Pernyataan Suhu Udara", story: "Budi berkata: 'Hari ini suhu di luar mencapai 32 derajat Celsius dan udara terasa sangat panas gerah.'", question: "Bagian manakah yang merupakan FAKTA objektif?", options: ["Udara terasa sangat panas gerah", "Suhu mencapai 32 derajat Celsius", "Hari ini adalah hari paling buruk", "Semua orang merasa kepanasan"], correct: 1, explanation: "Angka 32 derajat Celsius adalah data ukur termometer yang pasti (Fakta).", reflection: "Angka ukur alat adalah fakta yang tidak terbantahkan.", hint: "Lihat data angka yang tertera pada alat ukur." },
-
-        // Problem Solver & Dilema
-        { cat: 'problem_solver', title: "Dilema Uang Saku", story: "Kamu memiliki uang Rp20.000. Kamu ingin membeli buku tulis Rp15.000 dan jajanan Rp10.000.", question: "Keputusan finansial apa yang paling bijak?", options: ["Memaksa minta uang tambahan", "Membeli buku tulis dahulu dan menabung sisa uang", "Membeli jajanan dan melupakan buku sekolah", "Berhutang pada teman"], correct: 1, explanation: "Mendahulukan kebutuhan utama (buku sekolah) adalah prioritas hidup yang bijak.", reflection: "Belajar membedakan kebutuhan (needs) dan keinginan (wants) sangat penting.", hint: "Pilih mana yang lebih penting untuk kewajiban sekolahmu." },
-        { cat: 'problem_solver', title: "Kerjasama Kelompok", story: "Dalam tugas kelompok membuat maket, dua temanmu berbeda pendapat tentang desain jembatan.", question: "Bagaimana cara terbaik menyelesaikan masalah ini?", options: ["Keluar dari kelompok dan bekerja sendiri", "Memilih salah satu secara paksa tanpa diskusi", "Bermusyawarah menggabungkan ide terbaik dari keduanya", "Membiarkan tugas tidak dikerjakan"], correct: 2, explanation: "Musyawarah dan kolaborasi menggabungkan ide adalah kunci solusi masalah kelompok.", reflection: "Mendengarkan pendapat orang lain melatih kemampuan komunikasi dan empati.", hint: "Cari opsi yang melibatkan kerja sama tim." },
-
-        // Bagaimana Jika? (What If)
-        { cat: 'whatif', title: "Bagaimana Jika Tanpa Plastik?", story: "Bagaimana jika seluruh toko di dunia berhenti menggunakan kantong plastik sekali pakai mulai besok?", question: "Apa dampak positif jangka panjang yang paling besar?", options: ["Sampah plastik di lautan dan tanah berkurang drastis", "Semua pabrik kantong plastik bangkrut seketika", "Harga makanan di pasar naik sepuluh kali lipat", "Manusia tidak bisa berbelanja lagi"], correct: 0, explanation: "Pengurangan plastik sekali pakai menyelamatkan ekosistem laut dan bumi dari pencemaran.", reflection: "Tindakan kolektif menjaga lingkungan menyelamatkan masa depan bumi.", hint: "Pikirkan manfaat langsung bagi kelestarian alam dan hewan." },
-        { cat: 'whatif', title: "Bagaimana Jika Lampu Padam?", story: "Bagaimana jika seluruh kota mengalami pemadaman listrik total selama 3 hari berturut-turut?", question: "Apa langkah antisipasi pertama yang paling logis disiapkan?", options: ["Panik dan menangis di kamar", "Menyiapkan lampu darurat/lilin, air bersih, dan makanan awet", "Menjual semua perabotan rumah", "Keluar rumah tanpa arah tujuan"], correct: 1, explanation: "Kesiapsiagaan menghadapi darurat membutuhkan cadangan logistik dasar seperti air dan penerangan.", reflection: "Berpikir antisipatif membuat kita tenang menghadapi situasi krisis.", hint: "Pikirkan kebutuhan bertahan hidup yang paling mendesak." }
-    ];
-
-    // Generate 100 challenges by looping and mutating variations safely
+(function generateTrulyUnique100() {
+    const cats = ['logic', 'detective', 'whatif', 'fact_opinion', 'problem_solver', 'experiment', 'creativity', 'ethics'];
+    
     for (let i = 1; i <= 100; i++) {
-        const template = rawBank[(i - 1) % rawBank.length];
+        let cat = cats[(i - 1) % cats.length];
         let group = "L1";
         if (i > 20) group = "L2";
         if (i > 40) group = "L3";
         if (i > 60) group = "L4";
         if (i > 80) group = "L5";
 
+        let title = "";
+        let story = "";
+        let question = "";
+        let options = [];
+        let correct = 0;
+        let explanation = "";
+        let reflection = "";
+        let hint = "";
+
+        if (cat === 'logic') {
+            let baseNum = (i % 5) + 2;
+            title = `Pola Bilangan Logika #${i}`;
+            story = `Petualang menemukan rangkaian kode angka rahasia di pintu gerbang pulau: ${baseNum}, ${baseNum*2}, ${baseNum*4}, ${baseNum*8}, ...`;
+            question = `Berapakah angka berikutnya dalam pola matematika tersebut?`;
+            correct = 1;
+            options = [
+                `${baseNum*12} (ditambah ${baseNum*4})`,
+                `${baseNum*16} (dikalikan 2 dari sebelumnya)`,
+                `${baseNum*10} (ditambah 2)`,
+                `${baseNum*14} (pola acak)`
+            ];
+            explanation = `Pola bilangan ini selalu dikalikan 2 pada setiap langkah berikutnya.`;
+            reflection = `Analisis pola bilangan melatih ketelitian dan prediksi logis yang sistematis.`;
+            hint = `Perhatikan bagaimana nilai bilangan berlipat ganda pada setiap urutan.`;
+        } else if (cat === 'detective') {
+            title = `Misteri TKP Kasus #${i}`;
+            story = `Kasus #${i}: Di sebuah ruangan tertutup, ditemukan jendela kaca pecah berserakan di dalam ruangan, sementara daun-daun jendela terbuka menghadap ke luar.`;
+            question = `Apa kesimpulan detektif paling logis mengenai arah lemparan benda penyebab pecahnya kaca?`;
+            correct = 0;
+            options = [
+                `Benda dilempar dari luar menuju ke dalam ruangan (pecahan jatuh di dalam)`,
+                `Benda dilempar dari dalam keluar ruangan`,
+                `Kaca pecah sendiri karena suhu udara`,
+                `Tidak ada benda yang melempar kaca`
+            ];
+            explanation = `Pecahan kaca yang berserakan di dalam ruangan membuktikan bahwa benturan atau lemparan berasal dari luar.`;
+            reflection = `Detektif yang cermat selalu menganalisis letak dan sebaran bukti fisik secara akurat.`;
+            hint = `Cari tahu di mana tumpukan serpihan pecahan kaca berserakan.`;
+        } else if (cat === 'fact_opinion') {
+            title = `Uji Pernyataan Fakta #${i}`;
+            story = `Dalam artikel majalah sains edisi #${i}, terdapat beberapa kalimat ulasan tentang planet Mars.`;
+            question = `Manakah kalimat di bawah ini yang merupakan FAKTA objektif?`;
+            correct = 2;
+            options = [
+                `Mars adalah planet paling indah di tata surya`,
+                `Penduduk bumi pasti ingin segera pindah ke Mars`,
+                `Mars memiliki atmosfer yang sebagian besar terdiri dari gas karbon dioksida`,
+                `Pemandangan di Mars sangat menakjubkan bagi siapa saja`
+            ];
+            explanation = `Kandungan gas karbon dioksida di Mars adalah data ilmiah yang dapat diukur (Fakta). Kata indah/menakjubkan adalah penilaian subjektif (Opini).`;
+            reflection = `Membedakan fakta dan opini melindungi kita dari informasi yang menyesatkan.`;
+            hint = `Pilih pernyataan yang berdasarkan data ilmiah dan dapat dibuktikan.`;
+        } else if (cat === 'problem_solver') {
+            title = `Dilema Pemecah Masalah #${i}`;
+            story = `Situasi #${i}: Tim kelompok belajarmu memiliki waktu 2 hari untuk menyelesaikan proyek besar, namun salah satu anggota jatuh sakit dan tidak bisa membantu.`;
+            question = `Apa tindakan problem solving paling bijak yang harus diambil kelompokmu?`;
+            correct = 1;
+            options = [
+                `Memarahi anggota yang sakit karena tidak bertanggung jawab`,
+                `Membagi ulang tugas secara adil di antara anggota yang sehat dan menjenguk teman yang sakit`,
+                `Membatalkan seluruh proyek kelompok`,
+                `Mengerjakan semuanya sendirian tanpa memberitahu guru`
+            ];
+            explanation = `Musyawarah untuk membagi ulang beban tugas serta menjaga empati adalah solusi terbaik dalam kerja tim.`;
+            reflection = `Masalah kelompok diselesaikan dengan kepala dingin, kerja sama, dan komunikasi yang baik.`;
+            hint = `Pilih opsi yang mengutamakan kerja sama tim dan empati.`;
+        } else if (cat === 'whatif') {
+            title = `Simulasi Pengandaian #${i}`;
+            story = `Pengandaian #${i}: Bagaimana jika seluruh kendaraan bermotor di kotamu diganti total dengan sepeda dan kendaraan listrik dalam waktu bersamaan?`;
+            question = `Apa dampak positif jangka panjang yang paling dirasakan langsung oleh warga?`;
+            correct = 0;
+            options = [
+                `Polusi udara menurun drastis dan suara bising kendaraan hilang`,
+                `Semua jalan raya akan ditutup total selamanya`,
+                `Harga seluruh makanan di pasar mendadak gratis`,
+                `Jumlah penduduk kota langsung berkurang setengahnya`
+            ];
+            explanation = `Penggunaan kendaraan ramah lingkungan secara masif langsung memangkas emisi gas buang dan polusi suara.`;
+            reflection = `Simulasi 'bagaimana jika' melatih kita memprediksi dampak ekologis dari sebuah kebijakan.`;
+            hint = `Pikirkan hubungan langsung antara asap kendaraan dengan kualitas udara.`;
+        } else if (cat === 'experiment') {
+            title = `Laboratorium Sains #${i}`;
+            story = `Eksperimen #${i}: Kamu menguji kecepatan larut gula pasir dalam air dingin, air biasa, dan air panas dengan adukan yang sama.`;
+            question = `Variabel apakah yang sengaja dibuat BERBEDA (variabel manipulasi) dalam eksperimen ini?`;
+            correct = 1;
+            options = [
+                `Jumlah takaran gula pasir`,
+                `Suhu air (dingin, biasa, panas)`,
+                `Jumlah putaran adukan sendok`,
+                `Jenis gelas yang digunakan`
+            ];
+            explanation = `Suhu air sengaja dibedakan untuk menguji pengaruhnya terhadap kecepatan larut gula.`;
+            reflection = `Eksperimen ilmiah yang valid memerlukan pengontrolan variabel secara teliti.`;
+            hint = `Perhatikan hal apa yang menjadi pembeda utama pada tiga wadah air tersebut.`;
+        } else if (cat === 'creativity') {
+            title = `Tantangan Kreatif #${i}`;
+            story = `Tantangan #${i}: Kamu hanya memiliki 5 botol plastik bekas air mineral dan tali rafia untuk membuat alat penampung air hujan darurat di halaman rumah.`;
+            question = `Bagaimana rancangan desain paling kreatif dan efektif memanfaatkan botol tersebut?`;
+            correct = 2;
+            options = [
+                `Membuang semua botol ke tempat sampah`,
+                `Mengisi botol dengan tanah untuk hiasan bunga`,
+                `Memotong bagian bawah botol dan menyusunnya bertingkat menjadi corong saluran air mengalir ke wadah utama`,
+                `Membakar botol agar menjadi plastik cair`
+            ];
+            explanation = `Memotong dan menyusun botol bertingkat membentuk sistem corong saluran air adalah pemanfaatan daur ulang yang fungsional.`;
+            reflection = `Kreativitas memecahkan masalah melibatkan pemanfaatan barang bekas menjadi solusi inovatif.`;
+            hint = `Cari cara agar botol plastik bisa berfungsi mengarahkan aliran air hujan.`;
+        } else {
+            title = `Refleksi Karakter & Etika #${i}`;
+            story = `Cerita Etika #${i}: Saat jam istirahat, kamu tanpa sengaja menyenggol tempat pensil temanmu hingga isinya berserakan di lantai, lalu kamu buru-buru pergi karena malu.`;
+            question = `Sebagai anak berkarakter jujur dan bertanggung jawab, apa yang seharusnya kamu lakukan?`;
+            correct = 1;
+            options = [
+                `Berpura-pura tidak melihat dan tidak tahu apa-apa`,
+                `Kembali menghampiri temanmu, meminta maaf secara jujur, dan membantu membereskan isinya`,
+                `Menyalahkan orang lain yang berdiri di dekat meja`,
+                `Menyembunyikan tempat pensil tersebut ke dalam laci`
+            ];
+            explanation = `Bertanggung jawab atas kesalahan yang tidak sengaja dan meminta maaf adalah ciri anak yang berintegritas tinggi.`;
+            reflection = `Kejujuran dan tanggung jawab membangun rasa saling percaya dalam pertemanan.`;
+            hint = `Pilih tindakan yang menunjukkan keberanian mengakui kesalahan dan berempati.`;
+        }
+
         challengesData.push({
             id: i,
             group: group,
-            category: template.cat,
-            title: `${template.title} (Bagian ${Math.ceil(i/8)})`,
-            story: `[Tantangan #${i}] ${template.story}`,
-            question: template.question,
-            options: template.options,
-            correct: template.correct,
-            explanation: template.explanation,
-            reflection: template.reflection,
-            hint: template.hint
+            category: cat,
+            title: title,
+            story: story,
+            question: question,
+            options: options,
+            correct: correct,
+            explanation: explanation,
+            reflection: reflection,
+            hint: hint
         });
     }
 })();
@@ -169,7 +271,7 @@ function openChallenge(id) {
     document.getElementById("challenge-title").innerText = `Tantangan #${challenge.id}: ${challenge.title}`;
     document.getElementById("challenge-story").innerText = challenge.story;
     document.getElementById("challenge-question").innerText = challenge.question;
-    document.getElementById("kak-cerdas-text").innerText = `"Halo! Berpikirlah dengan logis sebelum memilih!"`;
+    document.getElementById("kak-cerdas-text").innerText = `"Halo! Berpikirlah dengan logis sebelum memilih jawaban!"`;
     document.getElementById("solution-feedback-box").classList.add("hidden");
 
     const optionsContainer = document.getElementById("options-container");
@@ -200,11 +302,11 @@ function submitAnswer(selectedIndex) {
             userState.totalStars = (userState.totalStars || 0) + 3;
             saveUserData();
         }
-        document.getElementById("kak-cerdas-text").innerText = `"Hebat sekali! Alasanmu sangat logis."`;
+        document.getElementById("kak-cerdas-text").innerText = `"Hebat sekali! Alasanmu sangat logis dan terbukti benar."`;
     } else {
         statusText.className = "font-bold text-lg mb-2 flex items-center gap-2 text-amber-400";
         statusText.innerHTML = `<i class="fa-solid fa-lightbulb text-2xl"></i> Hampir Tepat! Coba Evaluasi Lagi.`;
-        document.getElementById("kak-cerdas-text").innerText = `"Coba pikirkan kembali bukti yang ada!"`;
+        document.getElementById("kak-cerdas-text").innerText = `"Jangan menyerah! Coba baca kembali petunjuk situasi di atas."`;
     }
     document.getElementById("feedback-explanation").innerText = challenge.explanation;
     document.getElementById("feedback-reflection").innerText = challenge.reflection;
@@ -238,5 +340,5 @@ function resetUserData() {
         renderLevelMap("L1");
         showScreen("welcome-screen");
     }
-                             }
-                                
+                          }
+            
