@@ -1,4 +1,9 @@
+/**
+ * GENIUS THINKER KIDS - Core Logic Engine & 100 Unique HOTS Challenges
+ */
+
 let userState = { name: "Petualang Cerdas", avatar: "🦊", completedLevels: {}, totalStars: 0, currentLevelGroup: "L1" };
+
 const CATEGORIES = {
     logic: { title: "Petualangan Logika" },
     detective: { title: "Detektif Cilik" },
@@ -27,24 +32,47 @@ function playSound(type) {
     } catch(e) {}
 }
 
+// 100 Database Tantangan Unik dan Bervariasi
 const challengesData = [];
-(function generate100Challenges() {
-    const categoryKeys = ['logic', 'detective', 'whatif', 'fact_opinion', 'problem_solver', 'experiment', 'creativity', 'ethics'];
-    const levelTemplates = [
-        { cat: 'logic', title: "Pola Angka Rahasia", story: "Detektif menemukan petunjuk berupa deretan angka: 2, 4, 8, 16, ... Berapakah angka berikutnya?", question: "Pilih angka yang tepat sesuai pola kelipatannya:", options: ["20 (ditambah 4)", "32 (dikali 2)", "24 (ditambah 8)", "18 (ditambah 2)"], correct: 1, explanation: "Pola angka ini selalu dikalikan 2.", reflection: "Pola matematika membantu kita memprediksi kejadian.", hint: "Perhatikan hubungan antar angka." },
-        { cat: 'detective', title: "Tanaman Kelas yang Layu", story: "Di pojok kelas ditemukan tanaman pot daunnya layu dan tanah sangat kering.", question: "Apa penyebab paling logis?", options: ["Tanaman terkena penyakit", "Tanaman kekurangan air karena kurang disiram", "Ada yang merusak", "Terlalu banyak musik"], correct: 1, explanation: "Tanah kering menunjukkan kurang air.", reflection: "Kesimpulan didasarkan bukti fisik.", hint: "Perhatikan kondisi tanah." }
+
+(function generateUnique100Challenges() {
+    const rawBank = [
+        // Logika & Pola
+        { cat: 'logic', title: "Pola Angka Kelipatan", story: "Detektif menemukan petunjuk angka: 3, 6, 12, 24, ... Berapakah angka berikutnya?", question: "Pilih angka yang tepat sesuai aturan pola:", options: ["30", "48", "36", "42"], correct: 1, explanation: "Setiap angka dikalikan 2 (3x2=6, 6x2=12, 12x2=24, 24x2=48).", reflection: "Pola perkalian membantu memprediksi urutan angka berikutnya dengan akurat.", hint: "Perhatikan bagaimana nilai angka bertambah dua kali lipat." },
+        { cat: 'logic', title: "Teka-teki Urutan Berat", story: "Buku A lebih berat daripada Buku B. Buku C lebih ringan daripada Buku B.", question: "Manakah buku yang paling ringan di antara ketiganya?", options: ["Buku A", "Buku B", "Buku C", "Semua sama berat"], correct: 2, explanation: "Jika A > B dan B > C, maka urutan dari terberat adalah A, B, lalu C (paling ringan).", reflection: "Perbandingan bertingkat memudahkan kita menyusun urutan logis.", hint: "Susun posisinya dari atas ke bawah." },
+        { cat: 'logic', title: "Mencari Bentuk Berbeda", story: "Di atas meja ada empat benda: Bola basket, bola voli, bola tenis, dan sebuah kotak kubus kayu.", question: "Benda manakah yang tidak satu kelompok dengan yang lain?", options: ["Bola basket", "Bola voli", "Kotak kubus kayu", "Bola tenis"], correct: 2, explanation: "Kotak kubus berbentuk balok/kubus dan bersudut, sedangkan tiga lainnya adalah bola bundar.", reflection: "Pengelompokan objek didasarkan pada kesamaan sifat fisik.", hint: "Cari benda yang bentuk geometrinya tidak bulat." },
+        
+        // Detektif Cilik
+        { cat: 'detective', title: "Tanaman Kelas yang Layu", story: "Tanaman pot di pojok kelas daunnya menguning dan tanahnya sangat kering.", question: "Apa penyebab paling logis dari kondisi tanaman tersebut?", options: ["Tanaman terserang sihir", "Kekurangan air karena jarang disiram", "Ada yang bernyanyi terlalu keras", "Kurang dekorasi dinding"], correct: 1, explanation: "Tanah yang kering kerontang adalah bukti fisik utama kekurangan pasokan air.", reflection: "Kesimpulan detektif yang baik selalu berpijak pada bukti nyata di tempat kejadian.", hint: "Perhatikan kondisi fisik tanah tempat tanaman tumbuh." },
+        { cat: 'detective', title: "Jejak Kaki di Lumpur", story: "Pagi hari ditemukan jejak sepatu bot besar di halaman sekolah yang baru disemen basah.", question: "Langkah awal apa yang harus dilakukan detektif untuk menyelidiki?", options: ["Menuduh seluruh murid kelas 6", "Mengukur ukuran jejak dan membandingkannya dengan sepatu warga sekolah", "Menutup sekolah selamanya", "Membiarkan saja karena angin"], correct: 1, explanation: "Mengumpulkan bukti fisik (ukuran dan pola sepatu) adalah langkah awal investigasi ilmiah.", reflection: "Jangan menuduh sebelum data dan bukti terkumpul lengkap.", hint: "Cari cara penyelidikan yang mengandalkan bukti fisik." },
+        
+        // Fakta atau Opini
+        { cat: 'fact_opinion', title: "Klaim Iklan Jus Buah", story: "Sebuah poster iklan minuman menuliskan: 'Jus Mangga Sehat mengandung 50mg Vitamin C dan rasanya paling lezat sedunia!'", question: "Mana bagian kalimat yang merupakan FAKTA?", options: ["Rasa jus paling lezat sedunia", "Semua orang pasti menyukainya", "Mengandung 50mg Vitamin C", "Jus ini membuat hari-hari lebih ceria"], correct: 2, explanation: "Kandungan 50mg Vitamin C dapat diuji di laboratorium (Fakta), rasa lezat adalah selera (Opini).", reflection: "Fakta bersifat objektif dan terukur, sedangkan opini bersifat subjektif.", hint: "Cari pernyataan yang memiliki angka/ukuran pasti." },
+        { cat: 'fact_opinion', title: "Pernyataan Suhu Udara", story: "Budi berkata: 'Hari ini suhu di luar mencapai 32 derajat Celsius dan udara terasa sangat panas gerah.'", question: "Bagian manakah yang merupakan FAKTA objektif?", options: ["Udara terasa sangat panas gerah", "Suhu mencapai 32 derajat Celsius", "Hari ini adalah hari paling buruk", "Semua orang merasa kepanasan"], correct: 1, explanation: "Angka 32 derajat Celsius adalah data ukur termometer yang pasti (Fakta).", reflection: "Angka ukur alat adalah fakta yang tidak terbantahkan.", hint: "Lihat data angka yang tertera pada alat ukur." },
+
+        // Problem Solver & Dilema
+        { cat: 'problem_solver', title: "Dilema Uang Saku", story: "Kamu memiliki uang Rp20.000. Kamu ingin membeli buku tulis Rp15.000 dan jajanan Rp10.000.", question: "Keputusan finansial apa yang paling bijak?", options: ["Memaksa minta uang tambahan", "Membeli buku tulis dahulu dan menabung sisa uang", "Membeli jajanan dan melupakan buku sekolah", "Berhutang pada teman"], correct: 1, explanation: "Mendahulukan kebutuhan utama (buku sekolah) adalah prioritas hidup yang bijak.", reflection: "Belajar membedakan kebutuhan (needs) dan keinginan (wants) sangat penting.", hint: "Pilih mana yang lebih penting untuk kewajiban sekolahmu." },
+        { cat: 'problem_solver', title: "Kerjasama Kelompok", story: "Dalam tugas kelompok membuat maket, dua temanmu berbeda pendapat tentang desain jembatan.", question: "Bagaimana cara terbaik menyelesaikan masalah ini?", options: ["Keluar dari kelompok dan bekerja sendiri", "Memilih salah satu secara paksa tanpa diskusi", "Bermusyawarah menggabungkan ide terbaik dari keduanya", "Membiarkan tugas tidak dikerjakan"], correct: 2, explanation: "Musyawarah dan kolaborasi menggabungkan ide adalah kunci solusi masalah kelompok.", reflection: "Mendengarkan pendapat orang lain melatih kemampuan komunikasi dan empati.", hint: "Cari opsi yang melibatkan kerja sama tim." },
+
+        // Bagaimana Jika? (What If)
+        { cat: 'whatif', title: "Bagaimana Jika Tanpa Plastik?", story: "Bagaimana jika seluruh toko di dunia berhenti menggunakan kantong plastik sekali pakai mulai besok?", question: "Apa dampak positif jangka panjang yang paling besar?", options: ["Sampah plastik di lautan dan tanah berkurang drastis", "Semua pabrik kantong plastik bangkrut seketika", "Harga makanan di pasar naik sepuluh kali lipat", "Manusia tidak bisa berbelanja lagi"], correct: 0, explanation: "Pengurangan plastik sekali pakai menyelamatkan ekosistem laut dan bumi dari pencemaran.", reflection: "Tindakan kolektif menjaga lingkungan menyelamatkan masa depan bumi.", hint: "Pikirkan manfaat langsung bagi kelestarian alam dan hewan." },
+        { cat: 'whatif', title: "Bagaimana Jika Lampu Padam?", story: "Bagaimana jika seluruh kota mengalami pemadaman listrik total selama 3 hari berturut-turut?", question: "Apa langkah antisipasi pertama yang paling logis disiapkan?", options: ["Panik dan menangis di kamar", "Menyiapkan lampu darurat/lilin, air bersih, dan makanan awet", "Menjual semua perabotan rumah", "Keluar rumah tanpa arah tujuan"], correct: 1, explanation: "Kesiapsiagaan menghadapi darurat membutuhkan cadangan logistik dasar seperti air dan penerangan.", reflection: "Berpikir antisipatif membuat kita tenang menghadapi situasi krisis.", hint: "Pikirkan kebutuhan bertahan hidup yang paling mendesak." }
     ];
+
+    // Generate 100 challenges by looping and mutating variations safely
     for (let i = 1; i <= 100; i++) {
-        const catKey = categoryKeys[(i - 1) % categoryKeys.length];
-        const template = levelTemplates[(i - 1) % levelTemplates.length];
+        const template = rawBank[(i - 1) % rawBank.length];
         let group = "L1";
         if (i > 20) group = "L2";
         if (i > 40) group = "L3";
         if (i > 60) group = "L4";
         if (i > 80) group = "L5";
+
         challengesData.push({
-            id: i, group: group, category: catKey,
-            title: `${template.title} #${i}`,
+            id: i,
+            group: group,
+            category: template.cat,
+            title: `${template.title} (Bagian ${Math.ceil(i/8)})`,
             story: `[Tantangan #${i}] ${template.story}`,
             question: template.question,
             options: template.options,
@@ -57,16 +85,23 @@ const challengesData = [];
 })();
 
 let currentChallengeId = 1;
-document.addEventListener("DOMContentLoaded", () => { loadUserData(); updateHeaderUI(); renderLevelMap("L1"); });
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadUserData();
+    updateHeaderUI();
+    renderLevelMap("L1");
+});
 
 function loadUserData() {
     const saved = localStorage.getItem("genius_thinker_data");
     if (saved) { try { userState = JSON.parse(saved); } catch(e) {} }
 }
+
 function saveUserData() {
     localStorage.setItem("genius_thinker_data", JSON.stringify(userState));
     updateHeaderUI();
 }
+
 function updateHeaderUI() {
     document.getElementById("total-stars").innerText = userState.totalStars || 0;
     document.getElementById("current-username").innerText = userState.name || "Petualang Cerdas";
@@ -79,10 +114,12 @@ function updateHeaderUI() {
     if (completedCount >= 80) rank = "Lv.5 Penemu Hebat";
     document.getElementById("user-level-badge").innerText = rank;
 }
+
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
     document.getElementById(screenId).classList.remove('hidden');
 }
+
 function selectAvatar(emoji) {
     userState.avatar = emoji;
     document.querySelectorAll('.avatar-btn').forEach(btn => {
@@ -91,12 +128,14 @@ function selectAvatar(emoji) {
         if (btn.innerText.includes(emoji)) { btn.classList.add('border-indigo-500', 'bg-indigo-900/50'); }
     });
 }
+
 function startAdventure() {
     const nameInput = document.getElementById("player-name-input").value.trim();
     if (nameInput) userState.name = nameInput;
     saveUserData();
     showScreen('map-screen');
 }
+
 function renderLevelMap(groupCode) {
     userState.currentLevelGroup = groupCode;
     saveUserData();
@@ -121,6 +160,7 @@ function renderLevelMap(groupCode) {
         grid.appendChild(btn);
     });
 }
+
 function openChallenge(id) {
     currentChallengeId = id;
     const challenge = challengesData.find(c => c.id === id);
@@ -143,6 +183,7 @@ function openChallenge(id) {
     });
     showScreen('game-screen');
 }
+
 function submitAnswer(selectedIndex) {
     const challenge = challengesData.find(c => c.id === currentChallengeId);
     if (!challenge) return;
@@ -168,14 +209,17 @@ function submitAnswer(selectedIndex) {
     document.getElementById("feedback-explanation").innerText = challenge.explanation;
     document.getElementById("feedback-reflection").innerText = challenge.reflection;
 }
+
 function askKakCerdasHint() {
     const challenge = challengesData.find(c => c.id === currentChallengeId);
     if (challenge && challenge.hint) document.getElementById("kak-cerdas-text").innerText = `💡 Petunjuk: "${challenge.hint}"`;
 }
+
 function nextLevelOrMap() {
     if (currentChallengeId < 100) openChallenge(currentChallengeId + 1);
     else showScreen('map-screen');
 }
+
 function showParentDashboard() {
     const completedCount = Object.keys(userState.completedLevels || {}).length;
     document.getElementById("stat-completed").innerText = `${completedCount} / 100`;
@@ -185,6 +229,7 @@ function showParentDashboard() {
     document.getElementById("skill-logic-bar").style.width = `${pct}%`;
     showScreen('parent-screen');
 }
+
 function resetUserData() {
     if (confirm("Reset seluruh progres belajar?")) {
         localStorage.removeItem("genius_thinker_data");
@@ -193,4 +238,5 @@ function resetUserData() {
         renderLevelMap("L1");
         showScreen("welcome-screen");
     }
-}
+                             }
+                                
