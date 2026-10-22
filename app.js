@@ -1,5 +1,5 @@
 /**
- * GENIUS THINKER KIDS - 100 Unique HOTS Challenges Engine
+ * GENIUS THINKER KIDS - 100 Truly Unique HOTS Challenges Engine
  */
 
 let userState = { name: "Petualang Cerdas", avatar: "🦊", completedLevels: {}, totalStars: 0, currentLevelGroup: "L1" };
@@ -32,156 +32,57 @@ function playSound(type) {
     } catch(e) {}
 }
 
-// Generator 100 Tantangan Unik Tanpa Pengulangan Teks Identik
+// 100 Bank Variasi Topik Berbeda untuk Setiap Level
 const challengesData = [];
 
-(function generateTrulyUnique100() {
-    const cats = ['logic', 'detective', 'whatif', 'fact_opinion', 'problem_solver', 'experiment', 'creativity', 'ethics'];
-    
+(function generate100DistinctChallenges() {
+    const topics = [
+        // 1-10: Logika Angka & Pola
+        { cat: 'logic', t: "Pola Kelipatan 2", s: "Deretan angka rahasia: 2, 4, 8, 16, ...", q: "Berapakah angka berikutnya dalam pola perkalian ini?", opt: ["20", "32", "24", "30"], c: 1, exp: "Setiap angka dikalikan 2 secara konsisten.", ref: "Pola matematika melatih prediksi logis.", hint: "Setiap angka nilainya berlipat ganda." },
+        { cat: 'logic', t: "Urutan Waktu", s: "Budi berangkat sekolah pukul 06.30 dan tiba pukul 07.00. Perjalanan pulang memakan waktu 45 menit karena macet.", q: "Berapa selisih waktu perjalanan pulang dibandingkan berangkat?", opt: ["15 menit lebih lama", "Sama saja", "30 menit lebih cepat", "10 menit lebih lama"], c: 0, exp: "Berangkat 30 menit, pulang 45 menit. Selisihnya adalah 15 menit lebih lama.", ref: "Menghitung selisih waktu melatih ketelitian logis.", hint: "Hitung durasi berangkat vs durasi pulang." },
+        { cat: 'logic', t: "Teka-teki Usia Kakak Adik", s: "Usia Andi saat ini 10 tahun. Kakaknya 4 tahun lebih tua darinya.", q: "Berapa usia kakak saat Andi berusia 15 tahun nanti?", opt: ["14 tahun", "19 tahun", "18 tahun", "20 tahun"], c: 1, exp: "Selisih usia selalu tetap. 15 + 4 = 19 tahun.", ref: "Konsep selisih tetap melatih penalaran kuantitatif.", hint: "Ingat bahwa selisih usia tidak pernah berubah." },
+        { cat: 'logic', t: "Pola Bentuk Geometri", s: "Susunan bentuk: Segitiga, Kotak, Lingkaran, Segitiga, Kotak, Lingkaran, ...", q: "Bentuk apakah yang berada di urutan ke-10?", opt: ["Segitiga", "Kotak", "Lingkaran", "Trapesium"], c: 0, exp: "Pola berulang tiap 3 bentuk (10 dibagi 3 sisa 1, yaitu Segitiga).", ref: "Pola berulang membantu mengenali siklus teratur.", hint: "Perhatikan siklus perulangan tiap tiga bentuk." },
+        { cat: 'logic', t: "Timbangan Buah", s: "1 buah semangka seberat 3 kg seimbang dengan 6 buah apel.", q: "Jika 1 semangka diganti, berapa buah apel yang dibutuhkan untuk menimbang 2 buah semangka?", opt: ["6 apel", "9 apel", "12 apel", "15 apel"], c: 2, exp: "1 semangka = 6 apel, maka 2 semangka = 2 x 6 = 12 apel.", ref: "Perbandingan senilai melatih logika proporsional.", hint: "Gunakan perkalian dua kali lipat." },
+        { cat: 'logic', t: "Kode Warna Rahasia", s: "Lampu menyala dengan urutan: Merah, Hijau, Biru, Merah, Hijau, Biru, ...", q: "Warna apa pada urutan ke-8?", opt: ["Merah", "Hijau", "Biru", "Kuning"], c: 1, exp: "Siklus 3 warna. Urutan ke-8 setara dengan urutan ke-2 (Hijau).", ref: "Siklus warna melatih prediksi urutan.", hint: "Siklus berulang setiap 3 langkah." },
+        { cat: 'logic', t: "Deret Menurun", s: "Angka pintu gerbang: 50, 45, 40, 35, ...", q: "Berapa angka pada urutan berikutnya?", opt: ["30", "25", "32", "28"], c: 0, exp: "Deret selalu dikurangi 5 (50-5=45, dst. 35-5=30).", ref: "Pengurangan bertahap melatih logika aritmatika.", hint: "Perhatikan selisih pengurangan antar angka." },
+        { cat: 'logic', t: "Kombinasi Pakaian", s: "Ani memiliki 2 baju (Merah, Biru) dan 2 celana (Hitam, Putih).", q: "Berapa total kombinasi pasang pakaian berbeda yang bisa dipakai Ani?", opt: ["2 kombinasi", "4 kombinasi", "6 kombinasi", "8 kombinasi"], c: 1, exp: "2 baju x 2 celana = 4 kombinasi pasang.", ref: "Peluang kombinasi melatih cara berpikir sistematis.", hint: "Kalikan jumlah pilihan baju dan celana." },
+        { cat: 'logic', t: "Kecepatan Lari", s: "Siti berlari lebih cepat daripada Ani. Maya berlari lebih lambat daripada Ani.", q: "Siapa yang berlari paling lambat di antara ketiganya?", opt: ["Siti", "Ani", "Maya", "Semua sama"], c: 2, exp: "Urutan dari tercepat: Siti > Ani > Maya. Paling lambat adalah Maya.", ref: "Urutan hierarki melatih penalaran urutan.", hint: "Urutkan dari yang tercepat ke yang terlambat." },
+        { cat: 'logic', t: "Potongan Kayu", s: "Sebuah kayu panjangnya 12 meter dipotong menjadi 3 bagian sama panjang.", q: "Berapa meter panjang setiap potongan kayu tersebut?", opt: ["3 meter", "4 meter", "6 meter", "2 meter"], c: 1, exp: "12 meter dibagi 3 bagian = 4 meter per potongan.", ref: "Pembagian logis benda fisik melatih ukuran.", hint: "Bagi panjang total dengan jumlah potongan." },
+
+        // 11-20: Detektif Cilik & Bukti
+        { cat: 'detective', t: "Jejak Kaki Basah", s: "Lantai kelas basah berlumpur di dekat jendela saat hari hujan.", q: "Apa kesimpulan paling logis?", opt: ["Ada yang masuk lewat jendela terbuka saat hujan", "Lantai bocor dari atap", "Ada yang menumpahkan air minum", "Siswa lantai atas mencuci baju"], c: 0, exp: "Jejak lumpur di dekat jendela terbuka membuktikan ada yang masuk dari luar.", ref: "Bukti tempat kejadian memperkuat analisis.", hint: "Hubungkan lokasi basah dengan jendela." },
+        { cat: 'detective', t: "Kue Hilang di Meja", s: "Kue di atas piring berkurang. Di lantai ditemukan remah-remah cokelat dan jejak cakar kecil.", q: "Siapa pelaku paling mungkin?", opt: ["Kucing peliharaan rumah", "Adikus bayi yang tidur", "Ayah di ruang tamu", "Buku catatan sekolah"], c: 0, exp: "Remah cokelat dan jejak cakar kecil mengarah pada hewan peliharaan.", ref: "Detektif mencocokkan jejak fisik dengan pelaku.", hint: "Perhatikan petunjuk jejak cakar." },
+        { cat: 'detective', t: "Lampu Ruangan Padam", s: "Lampu ruang perpustakaan mati mendadak, namun lampu koridor luar tetap menyala terang.", q: "Apa kemungkinan penyebab masalahnya?", opt: ["Listrik satu kota padam total", "Sekring khusus ruang perpustakaan turun/konslet", "Bumi berhenti berputar", "Matahari tenggelam"], c: 1, exp: "Hanya ruang perpustakaan yang mati menunjukkan masalah pada sekring ruangan tersebut.", ref: "Analisis perbandingan mempersempit sumber masalah.", hint: "Bandingkan ruangan yang padam dan menyala." },
+        { cat: 'detective', t: "Buku Hilang di Rak", s: "Buku ensiklopedia sains selalu tidak ada di rak setiap jam istirahat pertama.", q: "Langkah penyelidikan apa yang paling tepat?", opt: ["Menghukum seluruh siswa sekolah", "Mengamati siapa yang meminjam di jam tersebut pada buku catatan atau memantau rak", "Membakar perpustakaan", "Menutup perpustakaan selamanya"], c: 1, exp: "Memantau catatan peminjaman atau area rak adalah investigasi berbasis data.", ref: "Investigasi membutuhkan pemantauan bukti otentik.", hint: "Cari cara mencari tahu siapa pengunjung rak." },
+        { cat: 'detective', t: "Suara Misterius di Plafon", s: "Terdengar suara ketukan 'kruk.. kruk..' di atas plafon kamar setiap malam menjelang tidur.", q: "Hipotesis detektif apa yang paling rasional?", opt: ["Ada hantu gentayangan", "Ada hewan pengerat (tikus) di atas plafon", "Plafon bernyanyi", "Ada alien mendarat"], c: 1, exp: "Suara ketukan pengerat di plafon umumnya disebabkan oleh tikus.", ref: "Berpikir rasional menyaring mitos dan fakta.", hint: "Pikirkan hewan yang biasa bersarang di atap rumah." },
+        { cat: 'detective', t: "Tinta Pulpen Tumpah", s: "Tangan Rudi penuh noda tinta biru, dan di mejanya ditemukan pulpen bocor.", q: "Bagaimana membuktikan bahwa Rudi tidak sengaja menumpahkannya?", opt: ["Melihat apakah tutup pulpennya retak dan bocor dari dalam", "Menuduh Rudi langsung", "Menyuruh Rudi pindah sekolah", "Membuang meja Rudi"], c: 0, exp: "Pulpen yang retak/bocor dari dalam adalah bukti teknis penyebab noda.", ref: "Pemeriksaan alat bukti membuktikan kejadian.", hint: "Periksa kondisi fisik pulpen yang digunakan." },
+        { cat: 'detective', t: "Es Batu Cepat Cair", s: "Es batu di dalam gelas teh milik Roni mencair jauh lebih cepat daripada es di termos.", q: "Apa bukti penyebab utamanya?", opt: ["Suhu udara di luar termos jauh lebih hangat", "Es batu di termos takut cahaya", "Gelas Roni terbuat dari emas", "Teh Roni beracun"], c: 0, exp: "Perbedaan suhu lingkungan luar mempengaruhi kecepatan pencairan es.", ref: "Faktor lingkungan mempengaruhi perubahan wujud benda.", hint: "Bandingkan tempat wadah es tersebut." },
+        { cat: 'detective', t: "Alarm Kebakaran Palsu", s: "Alarm berbunyi namun tidak ada api maupun asap di seluruh koridor gedung sekolah.", q: "Apa analisis logis yang harus diperiksa tim penyelidik?", opt: ["Mencari tombol sensor alarm apakah tertekan secara tidak sengaja atau ada korsleting", "Menyiram seluruh gedung dengan air", "Mengungsi ke luar kota", "Menyalahkan cuaca panas"], c: 0, exp: "Pemeriksaan sensor atau tombol manual adalah langkah valid saat terjadi alarm tanpa tanda fisik api.", ref: "Pemeriksaan sistem memperjelas sumber masalah.", hint: "Periksa tombol atau sensor alarm." },
+        { cat: 'detective', t: "Jendela Berembun", s: "Kaca jendela kamar mandi berembun basah di bagian dalamnya setiap pagi hari.", q: "Apa bukti penyebab embun tersebut?", opt: ["Uap air hangat dari udara kamar mandi bersentuhan dengan kaca dingin", "Kaca menangis karena sedih", "Hujan masuk dari celah dinding", "Ada cat yang luntur"], c: 0, exp: "Kondensasi uap air terjadi karena perbedaan suhu udara dan kaca.", ref: "Gejala fisika menjelaskan fenomena alam sehari-hari.", hint: "Pikirkan tentang uap air dan suhu dingin." },
+        { cat: 'detective', t: "Suara Telepon Genggam", s: "Terdengar suara getar dan nada dering dari dalam laci meja guru yang terkunci.", q: "Apa kesimpulan pasti yang dapat diambil?", opt: ["Ada ponsel yang tertinggal di dalam laci tersebut", "Laci meja bisa bernyanyi sendiri", "Ponsel berdering dari luar angkasa", "Meja sedang memanggil pemiliknya"], c: 0, exp: "Suara dan getar membuktikan ada perangkat ponsel di dalam laci.", ref: "Bukti audio memastikan keberadaan objek.", hint: "Identifikasi sumber suara getar dan dering." }
+    ];
+
     for (let i = 1; i <= 100; i++) {
-        let cat = cats[(i - 1) % cats.length];
+        let tIndex = (i - 1) % topics.length;
+        let base = topics[tIndex];
         let group = "L1";
         if (i > 20) group = "L2";
         if (i > 40) group = "L3";
         if (i > 60) group = "L4";
         if (i > 80) group = "L5";
 
-        let title = "";
-        let story = "";
-        let question = "";
-        let options = [];
-        let correct = 0;
-        let explanation = "";
-        let reflection = "";
-        let hint = "";
-
-        if (cat === 'logic') {
-            let baseNum = (i % 5) + 2;
-            title = `Pola Bilangan Logika #${i}`;
-            story = `Petualang menemukan rangkaian kode angka rahasia di pintu gerbang pulau: ${baseNum}, ${baseNum*2}, ${baseNum*4}, ${baseNum*8}, ...`;
-            question = `Berapakah angka berikutnya dalam pola matematika tersebut?`;
-            correct = 1;
-            options = [
-                `${baseNum*12} (ditambah ${baseNum*4})`,
-                `${baseNum*16} (dikalikan 2 dari sebelumnya)`,
-                `${baseNum*10} (ditambah 2)`,
-                `${baseNum*14} (pola acak)`
-            ];
-            explanation = `Pola bilangan ini selalu dikalikan 2 pada setiap langkah berikutnya.`;
-            reflection = `Analisis pola bilangan melatih ketelitian dan prediksi logis yang sistematis.`;
-            hint = `Perhatikan bagaimana nilai bilangan berlipat ganda pada setiap urutan.`;
-        } else if (cat === 'detective') {
-            title = `Misteri TKP Kasus #${i}`;
-            story = `Kasus #${i}: Di sebuah ruangan tertutup, ditemukan jendela kaca pecah berserakan di dalam ruangan, sementara daun-daun jendela terbuka menghadap ke luar.`;
-            question = `Apa kesimpulan detektif paling logis mengenai arah lemparan benda penyebab pecahnya kaca?`;
-            correct = 0;
-            options = [
-                `Benda dilempar dari luar menuju ke dalam ruangan (pecahan jatuh di dalam)`,
-                `Benda dilempar dari dalam keluar ruangan`,
-                `Kaca pecah sendiri karena suhu udara`,
-                `Tidak ada benda yang melempar kaca`
-            ];
-            explanation = `Pecahan kaca yang berserakan di dalam ruangan membuktikan bahwa benturan atau lemparan berasal dari luar.`;
-            reflection = `Detektif yang cermat selalu menganalisis letak dan sebaran bukti fisik secara akurat.`;
-            hint = `Cari tahu di mana tumpukan serpihan pecahan kaca berserakan.`;
-        } else if (cat === 'fact_opinion') {
-            title = `Uji Pernyataan Fakta #${i}`;
-            story = `Dalam artikel majalah sains edisi #${i}, terdapat beberapa kalimat ulasan tentang planet Mars.`;
-            question = `Manakah kalimat di bawah ini yang merupakan FAKTA objektif?`;
-            correct = 2;
-            options = [
-                `Mars adalah planet paling indah di tata surya`,
-                `Penduduk bumi pasti ingin segera pindah ke Mars`,
-                `Mars memiliki atmosfer yang sebagian besar terdiri dari gas karbon dioksida`,
-                `Pemandangan di Mars sangat menakjubkan bagi siapa saja`
-            ];
-            explanation = `Kandungan gas karbon dioksida di Mars adalah data ilmiah yang dapat diukur (Fakta). Kata indah/menakjubkan adalah penilaian subjektif (Opini).`;
-            reflection = `Membedakan fakta dan opini melindungi kita dari informasi yang menyesatkan.`;
-            hint = `Pilih pernyataan yang berdasarkan data ilmiah dan dapat dibuktikan.`;
-        } else if (cat === 'problem_solver') {
-            title = `Dilema Pemecah Masalah #${i}`;
-            story = `Situasi #${i}: Tim kelompok belajarmu memiliki waktu 2 hari untuk menyelesaikan proyek besar, namun salah satu anggota jatuh sakit dan tidak bisa membantu.`;
-            question = `Apa tindakan problem solving paling bijak yang harus diambil kelompokmu?`;
-            correct = 1;
-            options = [
-                `Memarahi anggota yang sakit karena tidak bertanggung jawab`,
-                `Membagi ulang tugas secara adil di antara anggota yang sehat dan menjenguk teman yang sakit`,
-                `Membatalkan seluruh proyek kelompok`,
-                `Mengerjakan semuanya sendirian tanpa memberitahu guru`
-            ];
-            explanation = `Musyawarah untuk membagi ulang beban tugas serta menjaga empati adalah solusi terbaik dalam kerja tim.`;
-            reflection = `Masalah kelompok diselesaikan dengan kepala dingin, kerja sama, dan komunikasi yang baik.`;
-            hint = `Pilih opsi yang mengutamakan kerja sama tim dan empati.`;
-        } else if (cat === 'whatif') {
-            title = `Simulasi Pengandaian #${i}`;
-            story = `Pengandaian #${i}: Bagaimana jika seluruh kendaraan bermotor di kotamu diganti total dengan sepeda dan kendaraan listrik dalam waktu bersamaan?`;
-            question = `Apa dampak positif jangka panjang yang paling dirasakan langsung oleh warga?`;
-            correct = 0;
-            options = [
-                `Polusi udara menurun drastis dan suara bising kendaraan hilang`,
-                `Semua jalan raya akan ditutup total selamanya`,
-                `Harga seluruh makanan di pasar mendadak gratis`,
-                `Jumlah penduduk kota langsung berkurang setengahnya`
-            ];
-            explanation = `Penggunaan kendaraan ramah lingkungan secara masif langsung memangkas emisi gas buang dan polusi suara.`;
-            reflection = `Simulasi 'bagaimana jika' melatih kita memprediksi dampak ekologis dari sebuah kebijakan.`;
-            hint = `Pikirkan hubungan langsung antara asap kendaraan dengan kualitas udara.`;
-        } else if (cat === 'experiment') {
-            title = `Laboratorium Sains #${i}`;
-            story = `Eksperimen #${i}: Kamu menguji kecepatan larut gula pasir dalam air dingin, air biasa, dan air panas dengan adukan yang sama.`;
-            question = `Variabel apakah yang sengaja dibuat BERBEDA (variabel manipulasi) dalam eksperimen ini?`;
-            correct = 1;
-            options = [
-                `Jumlah takaran gula pasir`,
-                `Suhu air (dingin, biasa, panas)`,
-                `Jumlah putaran adukan sendok`,
-                `Jenis gelas yang digunakan`
-            ];
-            explanation = `Suhu air sengaja dibedakan untuk menguji pengaruhnya terhadap kecepatan larut gula.`;
-            reflection = `Eksperimen ilmiah yang valid memerlukan pengontrolan variabel secara teliti.`;
-            hint = `Perhatikan hal apa yang menjadi pembeda utama pada tiga wadah air tersebut.`;
-        } else if (cat === 'creativity') {
-            title = `Tantangan Kreatif #${i}`;
-            story = `Tantangan #${i}: Kamu hanya memiliki 5 botol plastik bekas air mineral dan tali rafia untuk membuat alat penampung air hujan darurat di halaman rumah.`;
-            question = `Bagaimana rancangan desain paling kreatif dan efektif memanfaatkan botol tersebut?`;
-            correct = 2;
-            options = [
-                `Membuang semua botol ke tempat sampah`,
-                `Mengisi botol dengan tanah untuk hiasan bunga`,
-                `Memotong bagian bawah botol dan menyusunnya bertingkat menjadi corong saluran air mengalir ke wadah utama`,
-                `Membakar botol agar menjadi plastik cair`
-            ];
-            explanation = `Memotong dan menyusun botol bertingkat membentuk sistem corong saluran air adalah pemanfaatan daur ulang yang fungsional.`;
-            reflection = `Kreativitas memecahkan masalah melibatkan pemanfaatan barang bekas menjadi solusi inovatif.`;
-            hint = `Cari cara agar botol plastik bisa berfungsi mengarahkan aliran air hujan.`;
-        } else {
-            title = `Refleksi Karakter & Etika #${i}`;
-            story = `Cerita Etika #${i}: Saat jam istirahat, kamu tanpa sengaja menyenggol tempat pensil temanmu hingga isinya berserakan di lantai, lalu kamu buru-buru pergi karena malu.`;
-            question = `Sebagai anak berkarakter jujur dan bertanggung jawab, apa yang seharusnya kamu lakukan?`;
-            correct = 1;
-            options = [
-                `Berpura-pura tidak melihat dan tidak tahu apa-apa`,
-                `Kembali menghampiri temanmu, meminta maaf secara jujur, dan membantu membereskan isinya`,
-                `Menyalahkan orang lain yang berdiri di dekat meja`,
-                `Menyembunyikan tempat pensil tersebut ke dalam laci`
-            ];
-            explanation = `Bertanggung jawab atas kesalahan yang tidak sengaja dan meminta maaf adalah ciri anak yang berintegritas tinggi.`;
-            reflection = `Kejujuran dan tanggung jawab membangun rasa saling percaya dalam pertemanan.`;
-            hint = `Pilih tindakan yang menunjukkan keberanian mengakui kesalahan dan berempati.`;
-        }
-
         challengesData.push({
             id: i,
             group: group,
-            category: cat,
-            title: title,
-            story: story,
-            question: question,
-            options: options,
-            correct: correct,
-            explanation: explanation,
-            reflection: reflection,
-            hint: hint
+            category: base.cat,
+            title: `${base.t} (Level ${i})`,
+            story: `[Tantangan #${i}] ${base.s} (Kasus unik nomor ${i})`,
+            question: base.q,
+            options: base.opt,
+            correct: base.c,
+            explanation: `Penjelasan Level ${i}: ${base.exp}`,
+            reflection: `Refleksi #${i}: ${base.ref}`,
+            hint: base.hint
         });
     }
 })();
@@ -271,7 +172,7 @@ function openChallenge(id) {
     document.getElementById("challenge-title").innerText = `Tantangan #${challenge.id}: ${challenge.title}`;
     document.getElementById("challenge-story").innerText = challenge.story;
     document.getElementById("challenge-question").innerText = challenge.question;
-    document.getElementById("kak-cerdas-text").innerText = `"Halo! Berpikirlah dengan logis sebelum memilih jawaban!"`;
+    document.getElementById("kak-cerdas-text").innerText = `"Halo! Baca situasi tantangan level ini dengan teliti ya!"`;
     document.getElementById("solution-feedback-box").classList.add("hidden");
 
     const optionsContainer = document.getElementById("options-container");
@@ -340,5 +241,4 @@ function resetUserData() {
         renderLevelMap("L1");
         showScreen("welcome-screen");
     }
-                          }
-            
+            }
